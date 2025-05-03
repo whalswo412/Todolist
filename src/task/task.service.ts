@@ -1,4 +1,4 @@
-import { BadRequestException, Delete, Injectable, InternalServerErrorException, Logger, NotFoundException, Param, ParseIntPipe } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { TaskRepository } from './repositories/task.repository';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { Task } from '../entities/task.entity';

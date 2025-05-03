@@ -10,6 +10,7 @@ import { Tag } from './entities/tag.entity';
 import { Statistics } from './entities/statistics.entity';
 import { TaskModule } from './task/task.module';
 import { TagModule } from './tag/tag.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { TagModule } from './tag/tag.module';
     AuthModule,
     TaskModule,
     TagModule,
+    StatisticsModule,
   ],
   controllers: [],
   providers: [],

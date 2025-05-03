@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Logger, Post, Req, UnauthorizedException, UseGuards, ParseIntPipe, Patch, Put } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Body, Controller, Delete, Get, Param, Logger, Post, Req, UnauthorizedException, ParseIntPipe, Patch, Put, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { TaskService } from './task.service';
 import { Task } from '../entities/task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -7,13 +7,16 @@ import { TaskResponseDto } from './dto/task-response.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TagService } from '../tag/tag.service';
 import { UpdateTaskTagsDto } from '../tag/dto/update-task-tags.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 /**
  * Task 관련 HTTP 요청을 처리하는 컨트롤러
  * 모든 엔드포인트는 JWT 인증이 필요합니다.
  */
-@Controller('tasks')
+@ApiTags('Tasks')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@Controller('tasks')
 export class TaskController {
   private readonly logger = new Logger(TaskController.name);
   
@@ -43,9 +46,7 @@ export class TaskController {
     @Req() req,
     @Body() createTaskDto: CreateTaskDto
   ): Promise<TaskResponseDto> {
-    // 사용자 ID 추출 및 검증
     const userId = req.user?.id || req.user?.userId;
-    
     if (!userId) {
       this.logger.error('인증된 사용자 ID를 찾을 수 없습니다', req.user);
       throw new UnauthorizedException('올바른 인증 정보가 없습니다');
