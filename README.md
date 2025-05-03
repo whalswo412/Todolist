@@ -103,3 +103,38 @@ npm run start:dev
 ```bash
 npx ts-node src/database/seed.ts
 ```
+
+## Docker로 실행하기
+
+Docker와 Docker Compose를 사용해 애플리케이션과 DB를 함께 배포하고 실행할 수 있습니다.
+
+1. 환경 변수 설정
+   `.env` 파일을 작성하거나 환경 변수를 설정합니다:
+   ```bash
+   DB_HOST=db
+   DB_PORT=3306
+   DB_USERNAME=root
+   DB_PASSWORD=yourpassword
+   DB_DATABASE=todolist
+   JWT_SECRET=your_jwt_secret
+   JWT_EXPIRATION=3600
+   GOOGLE_CLIENT_ID=...
+   GOOGLE_CLIENT_SECRET=...
+   ```
+2. 컨테이너 빌드 및 실행
+   ```bash
+   docker-compose up --build -d
+   ```
+3. 로그 확인
+   ```bash
+   docker-compose logs -f
+   ```
+4. 중지 및 재시작
+   ```bash
+   docker-compose stop
+   docker-compose start
+   ```
+5. 데이터 초기화(볼륨 삭제)
+   ```bash
+   docker-compose down -v
+   ```

@@ -2,9 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DataSource } from 'typeorm';
+import { runSeeds } from './database/seeds';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // 개발 환경에서만 DB 시드 실행
+  if (process.env.NODE_ENV !== 'production') {
+    const dataSource = app.get(DataSource);
+    await runSeeds(dataSource);
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({
